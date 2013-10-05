@@ -1,2 +1,1 @@
-CREATE table words(id int, word text, definition_hash varchar(50) primary key, definition text);
-create table usage(id int, usage text);
+CREATE table words(id int, word text, date_learned DATE);
