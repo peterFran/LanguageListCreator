@@ -1,1 +1,0 @@
-CREATE table words(id int, word text, date_learned DATE);
