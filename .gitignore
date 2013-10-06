@@ -45,6 +45,7 @@ TestResults/
 *.rar
 *.tar
 *.zip
+*.pyc
 ######################
 # Logs and databases #
 ######################
