@@ -1,22 +1,30 @@
 import sqlite3
 import random
 import arrow
+import os
 if __name__ == '__main__':
 	from QueryLocalDB import *
 	ll = LanguageDatabase()
-	print ll.getNewWord()
+	for i in ll.getNewWords(10):
+		print i
 	ll.getWordsInPeriod(m=-1,d=1)
 
 class LanguageDatabase(object):
 	def __init__(self):
-		
-		with sqlite3.connect("word_lists.db") as db:
+		with sqlite3.connect("./data/word_lists.db") as db:
 			cur = db.cursor()
 			cur.execute("SELECT MAX(id) FROM es")
 			self.max_value = cur.fetchone()[0]
+
+	def qualify(self,word):
+		with sqlite3.connect("./data/word_lists.db") as db:
+			cur = db.cursor()
+			cur.execute("UPDATE es SET qualified=1 WHERE word='%s'" % word)
+			db.commit()
+
 	def getNewWord(self):
 		word = None
-		with sqlite3.connect("word_lists.db") as db:
+		with sqlite3.connect("./data/word_lists.db") as db:
 			cur = db.cursor()			
 			while word is None:
 				index = random.randint(1,self.max_value)
@@ -25,6 +33,14 @@ class LanguageDatabase(object):
 			cur.execute("UPDATE es SET date_learned='%s' WHERE id='%d'" % (str(arrow.now().format('YYYY-MM-DD HH:mm:ss')), index))
 			db.commit()
 		return word
+
+	def getNewWords(self, number_words):
+		words = []
+		for i in range(0,number_words):
+			words.append(self.getNewWord())
+		print words
+		return words
+
 	def getWordsInPeriod(self,d=0,m=0,y=0):
 		with sqlite3.connect("word_lists.db") as db:
 			cur = db.cursor()
@@ -33,5 +49,3 @@ class LanguageDatabase(object):
 			# for line in cur.execute("SELECT word,date_learned FROM es WHERE date_learned BETWEEN '%s' AND '%s' ORDER BY date_learned" % (ago,today)).fetchall():
 			# 	print line[0],"\t",arrow.get(str(line[1]), 'YYYY-MM-DD HH:mm:ss').format('D MMMM YYYY')
 			return cur.execute("SELECT word,date_learned FROM es WHERE date_learned BETWEEN '%s' AND '%s' ORDER BY date_learned" % (start_period,end_period)).fetchall()
-
-			
