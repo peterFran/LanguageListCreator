@@ -5,12 +5,14 @@ from data.WordReference import getWordDefinitionWithCheck
 def daily_list(number_words, language_known, language_learning, dictionary="wiktionary"):
 	dictionary_code = "esen"#get_dict_code(language_know, language_learning, dictionary)
 	languagedb = LanguageDatabase()
+	wordRef = WordReferenceDefinition()
+	wordRef.READABLE = True
 	word_list = dict()
 	for word in languagedb.getNewWords(10):
-		definition = getWordDefinitionWithCheck(word, dictionary_code)
+		definition = wordRef.getWordDefinitionWithCheck(word, dictionary_code)
 		while definition is None:
 			word = languagedb.getNewWord()
-			definition = getWordDefinitionWithCheck(word, dictionary_code)
+			definition = wordRef.getWordDefinitionWithCheck(word, dictionary_code)
 		languagedb.qualify(word)
 		word_list[word]=definition
 	# return 3 lists
