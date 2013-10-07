@@ -29,7 +29,10 @@ class LanguageDatabase(object):
 			while word is None:
 				index = random.randint(1,self.max_value)
 				cur.execute("SELECT word FROM es WHERE id IS %d AND date_learned IS null" % index)
-				word = cur.fetchone()[0]
+				try:
+					word = cur.fetchone()[0]
+				except TypeError as e:
+					word = None
 			cur.execute("UPDATE es SET date_learned='%s' WHERE id='%d'" % (str(arrow.now().format('YYYY-MM-DD HH:mm:ss')), index))
 			db.commit()
 		return word
@@ -38,7 +41,6 @@ class LanguageDatabase(object):
 		words = []
 		for i in range(0,number_words):
 			words.append(self.getNewWord())
-		print words
 		return words
 
 	def getWordsInPeriod(self,d=0,m=0,y=0):
