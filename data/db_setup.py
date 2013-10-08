@@ -1,4 +1,6 @@
 #!/usr/local/bin/python
+# coding=UTF-8
+
 import sqlite3
 import re
 
@@ -6,10 +8,8 @@ def check():
 	with sqlite3.connect("data/word_lists.db") as db:
 		try:
 			db.execute("SELECT word FROM es where qualified='1'")
-			print "Passed"
 			return True
 		except:
-			print "Failed"
 			return False
 def setup():
 	with open("es-ES.dic") as dictionary_file:

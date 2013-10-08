@@ -1,3 +1,5 @@
+# coding=UTF-8
+
 import sqlite3
 import random
 import arrow
@@ -30,7 +32,7 @@ class LanguageDatabase(object):
 				index = random.randint(1,self.max_value)
 				cur.execute("SELECT word FROM es WHERE id IS %d AND date_learned IS null" % index)
 				try:
-					word = cur.fetchone()[0]
+					word = unicode(cur.fetchone()[0])
 				except TypeError as e:
 					word = None
 			cur.execute("UPDATE es SET date_learned='%s' WHERE id='%d'" % (str(arrow.now().format('YYYY-MM-DD HH:mm:ss')), index))
