@@ -1,3 +1,5 @@
+# coding=UTF-8
+
 from controller.WordListGenerator import *
 from data.db_setup import *
 from interface.MyParser import MyParser
@@ -34,7 +36,7 @@ if __name__ == '__main__':
 		setup()
 	if options.weekly:
 		pass
-	for item in daily_list(int(options.quantity),options.native,options.learned):
+	for item in daily_list(int(options.quantity),unicode(options.native,sys.stdin.encoding).encode('utf-8'),unicode(options.learned, sys.stdin.encoding).encode('utf-8')):
 		output =  "Word: "+item["word"]+"\n\tTranslations:\n"
 		for trans in item["translations"]:
 			output += "\t\t%s - %s\n" % (trans["original"],trans["translation"])

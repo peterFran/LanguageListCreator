@@ -1,3 +1,4 @@
+# coding=UTF-8
 import json
 from urllib2 import urlopen
 import urllib2
@@ -7,12 +8,18 @@ class WordReferenceDefinition(object):
 	# Readable flag, set if you want to be able to understand ANYTHING
 	READABLE = False
 	def getWordDefinitionAsDict(self, word, dictionary_code):
-		url = "http://api.wordreference.com/0.8/8a8bc/json/%s/%s" % (dictionary_code,word)
-		url = url.encode('utf8').rstrip()
+		print word
+		url_word = word# urllib2.quote(word)
+		if isinstance(dictionary_code, unicode):
+			print "woohoo"
+		url = u"http://api.wordreference.com/0.8/8a8bc/json/"+dictionary_code+u'/'+url_word
+		print url
 		try:
-			result = urlopen(url).read().decode('iso-8859-1').encode('utf8').rstrip()
+			result = urlopen(url).read().encode('utf-8').rstrip()
+			print result
 			return json.loads(result)
 		except urllib2.URLError, e:
+			print url
 			return None
 	def getWordDefinitionWithCheck(self, word, dictionary_code):
 		definition = self.getWordDefinitionAsDict(word, dictionary_code)
@@ -28,23 +35,28 @@ class WordReferenceDefinition(object):
 			else:
 				return definition
 	def _makeReadable(self,word, definition):
+		print word
 		structure = {"word":word,"translations":list(),"compound":list()}
 		# Compute translations
 		for category in definition:
 			if re.match("term\d",category):
 				for name in definition[category]:
 					for tr in definition[category][name]:
-						try:
-							trans = {"original":definition[category][name][tr]["OriginalTerm"]["term"].decode('iso-8859-1').encode('utf8'),"translation":definition[category][name][tr]["FirstTranslation"]["term"].decode('iso-8859-1').encode('utf8')}
-						except:
-							trans = {"original":definition[category][name][tr]["OriginalTerm"]["term"].decode('iso-8859-1').encode('utf8')}
+						trans = {"original":definition[category][name][tr]["OriginalTerm"]["term"],}
+						if "FirstTranslation" in definition[category][name][tr]:
+							trans["translation"]=definition[category][name][tr]["FirstTranslation"]["term"]
+						else:
+							trans["translation"]="None available"
 						structure["translations"].append(trans)
 			elif re.match("original", category):
 				for number in definition[category]["Compounds"]:
-					compound = {"original":definition[category]["Compounds"][number]["OriginalTerm"]["term"].decode('iso-8859-1').encode('utf8'),"translation":unicode(definition[category]["Compounds"][number]["FirstTranslation"]["term"])}
+					compound = {"original":definition[category]["Compounds"][number]["OriginalTerm"]["term"],"translation":definition[category]["Compounds"][number]["FirstTranslation"]["term"]}
 					structure["compound"].append(compound)
 		return structure
 
 
 if __name__ == '__main__':
-	print checkWordExists("Hola", "esen")
+	wr = WordReferenceDefinition()
+	wr.READABLE=True
+
+	print wr.getWordDefinitionWithCheck("apolíneo", "esen")['translations'][0]['original']
