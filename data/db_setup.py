@@ -12,7 +12,7 @@ def check():
 		except:
 			return False
 def setup():
-	with open("es-ES.dic") as dictionary_file:
+	with open("data/es-ES.dic") as dictionary_file:
 		with sqlite3.connect("data/word_lists.db") as db:
 			db.execute("DROP TABLE if exists es")
 			db.execute("CREATE TABLE es(id INTEGER PRIMARY KEY, word text, date_learned DATE, qualified BOOLEAN)")
