@@ -35,13 +35,13 @@ class WordReferenceDefinition(object):
 				for name in definition[category]:
 					for tr in definition[category][name]:
 						try:
-							trans = {"original":definition[category][name][tr]["OriginalTerm"]["term"],"translation":definition[category][name][tr]["FirstTranslation"]["term"]}
+							trans = {"original":definition[category][name][tr]["OriginalTerm"]["term"].decode('iso-8859-1').encode('utf8'),"translation":definition[category][name][tr]["FirstTranslation"]["term"].decode('iso-8859-1').encode('utf8')}
 						except:
-							trans = {"original":definition[category][name][tr]["OriginalTerm"]["term"]}
+							trans = {"original":definition[category][name][tr]["OriginalTerm"]["term"].decode('iso-8859-1').encode('utf8')}
 						structure["translations"].append(trans)
 			elif re.match("original", category):
 				for number in definition[category]["Compounds"]:
-					compound = {"original":definition[category]["Compounds"][number]["OriginalTerm"]["term"],"translation":definition[category]["Compounds"][number]["FirstTranslation"]["term"]}
+					compound = {"original":definition[category]["Compounds"][number]["OriginalTerm"]["term"].decode('iso-8859-1').encode('utf8'),"translation":unicode(definition[category]["Compounds"][number]["FirstTranslation"]["term"])}
 					structure["compound"].append(compound)
 		return structure
 
