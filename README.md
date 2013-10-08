@@ -13,3 +13,12 @@ This will set up your database, and also give you your first 10 words.
 If no --quantity option is specified, then the default number of words is 10
 
 More languages and functionality coming!
+
+Features in the pipeline:
+-Definition option
+-PDF creationg
+-Automatic periodic list creation
+-Email service
+-Turkish-English support
+-GUI interface
+-Tests

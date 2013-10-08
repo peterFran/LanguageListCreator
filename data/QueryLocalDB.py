@@ -46,10 +46,11 @@ class LanguageDatabase(object):
 		return words
 
 	def getWordsInPeriod(self,d=0,m=0,y=0):
-		with sqlite3.connect("word_lists.db") as db:
+		with sqlite3.connect("./data/word_lists.db") as db:
 			cur = db.cursor()
 			end_period = arrow.now().replace(days=1).format('YYYY-MM-DD')
 			start_period = arrow.now().replace(days=d,months=m,years=y).format('YYYY-MM-DD')
-			# for line in cur.execute("SELECT word,date_learned FROM es WHERE date_learned BETWEEN '%s' AND '%s' ORDER BY date_learned" % (ago,today)).fetchall():
-			# 	print line[0],"\t",arrow.get(str(line[1]), 'YYYY-MM-DD HH:mm:ss').format('D MMMM YYYY')
-			return cur.execute("SELECT word,date_learned FROM es WHERE date_learned BETWEEN '%s' AND '%s' ORDER BY date_learned" % (start_period,end_period)).fetchall()
+			words = []
+			for word in cur.execute("SELECT word,date_learned FROM es WHERE qualified=1 AND date_learned BETWEEN '%s' AND '%s' ORDER BY date_learned" % (start_period,end_period)).fetchall():
+				words.append(word[0])
+			return words

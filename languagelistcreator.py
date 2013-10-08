@@ -35,13 +35,24 @@ if __name__ == '__main__':
 	if not check():
 		setup()
 	if options.weekly:
-		pass
-	for item in daily_list(int(options.quantity),unicode(options.native,sys.stdin.encoding).encode('utf-8'),unicode(options.learned, sys.stdin.encoding).encode('utf-8')):
-		output =  "Word: "+item["word"]+"\n\tTranslations:\n"
-		for trans in item["translations"]:
-			output += "\t\t%s - %s\n" % (trans["original"],trans["translation"])
-		if len(item["compound"])>0:
-			output+="\tCompound Usage:\n"
-			for trans in item["compound"]:
+		print "Words Learned In The Last Week."
+		for word in periodic_revision(weeks=-1):
+			print "\t%s" % word
+	elif options.monthly:
+		print "Words Learned In The Last Month."
+		for word in periodic_revision(months=-1):
+			print "\t%s" % word
+	elif options.yearly:
+		print "Words Learned In The Last Year."
+		for word in periodic_revision(years=-1):
+			print "\t%s" % word
+	else:
+		for item in daily_list(int(options.quantity),unicode(options.native,sys.stdin.encoding).encode('utf-8'),unicode(options.learned, sys.stdin.encoding).encode('utf-8')):
+			output =  "Word: "+item["word"]+"\n\tTranslations:\n"
+			for trans in item["translations"]:
 				output += "\t\t%s - %s\n" % (trans["original"],trans["translation"])
-		print output
+			if len(item["compound"])>0:
+				output+="\tCompound Usage:\n"
+				for trans in item["compound"]:
+					output += "\t\t%s - %s\n" % (trans["original"],trans["translation"])
+			print output

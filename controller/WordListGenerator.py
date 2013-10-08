@@ -20,6 +20,10 @@ def daily_list(number_words, language_known, language_learning, dictionary="wikt
 	# return 3 lists
 	return word_list
 
+def periodic_revision(days=0,weeks=0,months=0,years=0):
+	languagedb = LanguageDatabase()
+	return languagedb.getWordsInPeriod(d=days+weeks*7,m=months,y=years)
+
 # def daily_list_pdf(number_words, language_known, language_learning, dictionary="wiktionary"):
 # 	(word_list,words_only_list,definitions_only_list)=daily_list(number_words, language_known, language_learning, dictionary=dictionary)	
 # 	latex_code = get_latex(timeframe="Daily",full=word_list,words=words_only_list,definitions=definitions_only_list)
