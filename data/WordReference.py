@@ -3,7 +3,6 @@ import json
 from urllib2 import urlopen
 import urllib2, re
 
-from encodingtools import *
 
 class WordReferenceDefinition(object):
 	# Readable flag, set if you want to be able to understand ANYTHING
