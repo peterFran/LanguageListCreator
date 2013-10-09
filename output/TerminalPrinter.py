@@ -16,7 +16,10 @@ class TerminalPrinter(object):
 		output+=u"Words:\n"
 		for item in daily_list:
 			output+=u"\t"+item["word"]+u"\n"
-		output+=u"\nTranslations\n"
+		output+=u"\nTranslations:\n"
 		for item in daily_list:
-			output+=u"\t"+item["translations"][0]["translation"]+u"\n"
+			try:
+				output+=u"\t"+item["translations"][0]["translation"]+u"\n"
+			except:
+				pass
 		return output
