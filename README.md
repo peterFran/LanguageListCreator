@@ -21,4 +21,3 @@ Features in the pipeline:
 -Email service
 -Turkish-English support
 -GUI interface
--Tests
