@@ -3,6 +3,7 @@
 from controller.WordListGenerator import *
 from data.db_setup import *
 from interface.MyParser import MyParser
+from output.TerminalPrinter import TerminalPrinter
 
 cmd_folder = os.path.realpath(os.path.dirname(inspect.getfile(inspect.currentframe(0)))+'/interface/')
 if cmd_folder not in sys.path:
@@ -47,12 +48,7 @@ if __name__ == '__main__':
 		for word in periodic_revision(years=-1):
 			print "\t%s" % word
 	else:
-		for item in daily_list(int(options.quantity),unicode(options.native,sys.stdin.encoding).encode('utf-8'),unicode(options.learned, sys.stdin.encoding).encode('utf-8')):
-			output =  "Word: "+item["word"]+"\n\tTranslations:\n"
-			for trans in item["translations"]:
-				output += "\t\t%s - %s\n" % (trans["original"],trans["translation"])
-			if len(item["compound"])>0:
-				output+="\tCompound Usage:\n"
-				for trans in item["compound"]:
-					output += "\t\t%s - %s\n" % (trans["original"],trans["translation"])
-			print output
+		word_list = daily_list(int(options.quantity),unicode(options.native,sys.stdin.encoding).encode('utf-8'),unicode(options.learned, sys.stdin.encoding).encode('utf-8'))
+		term_print = TerminalPrinter()
+		print term_print.std_printout(word_list)
+		print term_print.test_printout(word_list)
