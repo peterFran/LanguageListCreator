@@ -3,6 +3,7 @@
 import sqlite3
 import random
 import arrow
+from collections import OrderedDict
 import os
 if __name__ == '__main__':
 	from QueryLocalDB import *
@@ -50,7 +51,9 @@ class LanguageDatabase(object):
 			cur = db.cursor()
 			end_period = arrow.now().replace(days=1).format('YYYY-MM-DD')
 			start_period = arrow.now().replace(days=d,months=m,years=y).format('YYYY-MM-DD')
-			words = []
+			words_by_date = OrderedDict()
 			for word in cur.execute("SELECT word,date_learned FROM es WHERE qualified=1 AND date_learned BETWEEN '%s' AND '%s' ORDER BY date_learned" % (start_period,end_period)).fetchall():
-				words.append(word[0])
-			return words
+				if word[1] not in words_by_date:
+					words_by_date[word[1]]=list()
+				words_by_date[word[1]].append(word[0])
+			return words_by_date

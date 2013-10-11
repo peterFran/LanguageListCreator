@@ -4,6 +4,8 @@ from controller.WordListGenerator import *
 from data.db_setup import *
 from interface.MyParser import MyParser
 from output.TerminalPrinter import TerminalPrinter
+import arrow
+# from output.doc_create.CreateHTML import dailyList
 
 cmd_folder = os.path.realpath(os.path.dirname(inspect.getfile(inspect.currentframe(0)))+'/interface/')
 if cmd_folder not in sys.path:
@@ -35,20 +37,20 @@ parser.add_option("-p", "--pdf", action="store_true", dest="pdf",
 if __name__ == '__main__':
 	if not check():
 		setup()
+	term_print = TerminalPrinter()
 	if options.weekly:
-		print "Words Learned In The Last Week."
-		for word in periodic_revision(weeks=-1):
-			print "\t%s" % word
+		print "Words Learned In The Last Week.\n"
+		print term_print.periodic_list_printout(periodic_revision(weeks=-1))
+
 	elif options.monthly:
 		print "Words Learned In The Last Month."
-		for word in periodic_revision(months=-1):
-			print "\t%s" % word
+		print term_print.periodic_list_printout(periodic_revision(months=-1))
 	elif options.yearly:
 		print "Words Learned In The Last Year."
-		for word in periodic_revision(years=-1):
-			print "\t%s" % word
+		print term_print.periodic_list_printout(periodic_revision(years=-1))
 	else:
 		word_list = daily_list(int(options.quantity),unicode(options.native,sys.stdin.encoding).encode('utf-8'),unicode(options.learned, sys.stdin.encoding).encode('utf-8'))
 		term_print = TerminalPrinter()
+		# print dailyList(word_list)
 		print term_print.std_printout(word_list)
 		print term_print.test_printout(word_list)
