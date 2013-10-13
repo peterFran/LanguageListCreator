@@ -5,8 +5,8 @@ from data.QueryLocalDB import LanguageDatabase
 from data.WordReference import WordReferenceDefinition
 
 def daily_list(number_words, language_known, language_learning, dictionary="wiktionary"):
-	dictionary_code = "esen"#get_dict_code(language_know, language_learning, dictionary)
-	languagedb = LanguageDatabase()
+	dictionary_code = language_learning+language_known
+	languagedb = LanguageDatabase(language_learning)
 	wordRef = WordReferenceDefinition()
 	wordRef.READABLE = True
 	word_list = list()
@@ -21,7 +21,7 @@ def daily_list(number_words, language_known, language_learning, dictionary="wikt
 	return word_list
 
 def periodic_revision(days=0,weeks=0,months=0,years=0):
-	languagedb = LanguageDatabase()
+	languagedb = LanguageDatabase(language_learning)
 	return languagedb.getWordsInPeriod(d=days+weeks*7,m=months,y=years)
 
 # def daily_list_pdf(number_words, language_known, language_learning, dictionary="wiktionary"):

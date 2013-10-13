@@ -5,7 +5,8 @@ from data.db_setup import *
 from interface.MyParser import MyParser
 from output.TerminalPrinter import TerminalPrinter
 import arrow
-# from output.doc_create.CreateHTML import dailyList
+import output.doc_create.CreateHTML as CreateHTML
+from output.SendEmail import *
 
 cmd_folder = os.path.realpath(os.path.dirname(inspect.getfile(inspect.currentframe(0)))+'/interface/')
 if cmd_folder not in sys.path:
@@ -17,11 +18,11 @@ if cmd_folder not in sys.path:
 
 
 parser = MyParser(epilog="""Language Options:\n\tes - Spanish\n\ten - English\nPairing options (learned -> native):\n\tes -> en\n""")
+
 parser.add_option("-l", "--learning", dest="learned", default="es",
-		help="Type the first two letters of the language you want to learn. Default: es")
-		  
+				  help="Type the first two letters of the language you want to learn. Default: es")  
 parser.add_option("-n", "--native", dest="native", default="en",
-		help="First two letters of laguage known. Default: en")
+				  help="First two letters of laguage known. Default: en")
 parser.add_option("-q", "--quantity", dest="quantity", default=10,
 				  help="Number of words to learn today. Default 10")
 parser.add_option("-m", "--monthly", action="store_true", dest="monthly",
@@ -32,16 +33,18 @@ parser.add_option("-y", "--yearly", action="store_true", dest="yearly",
 				  help="Flag for yearly summary")
 parser.add_option("-p", "--pdf", action="store_true", dest="pdf",
 				  help="Output of lists go to pdf files")
+parser.add_option("-e", "--email", action="store_true", dest="email",
+				  help="Send to email")
+
 (options, args) = parser.parse_args()
 
 if __name__ == '__main__':
-	if not check():
-		setup()
+	if not check(options.learned):
+		setup(options.learned)
 	term_print = TerminalPrinter()
 	if options.weekly:
 		print "Words Learned In The Last Week.\n"
 		print term_print.periodic_list_printout(periodic_revision(weeks=-1))
-
 	elif options.monthly:
 		print "Words Learned In The Last Month."
 		print term_print.periodic_list_printout(periodic_revision(months=-1))
@@ -51,6 +54,11 @@ if __name__ == '__main__':
 	else:
 		word_list = daily_list(int(options.quantity),unicode(options.native,sys.stdin.encoding).encode('utf-8'),unicode(options.learned, sys.stdin.encoding).encode('utf-8'))
 		term_print = TerminalPrinter()
-		# print dailyList(word_list)
 		print term_print.std_printout(word_list)
 		print term_print.test_printout(word_list)
+		if options.email:
+			address = "peterf.meckiffe@gmail.com"
+			HTMLCreator = CreateHTML.CreateHTML()
+			html = HTMLCreator.createHTML(word_list,test=True)
+			sendMail(address, html)
+

@@ -16,7 +16,6 @@ class WordReferenceDefinition(object):
 			result = urlopen(url).read().rstrip()
 			return json.loads(result)
 		except urllib2.URLError, e:
-			print url
 			return None
 	def getWordDefinitionWithCheck(self, word, dictionary_code):
 		definition = self.getWordDefinitionAsDict(word, dictionary_code)

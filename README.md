@@ -18,6 +18,5 @@ Features in the pipeline:
 -Definition option
 -PDF creationg
 -Automatic periodic list creation
--Email service
--Turkish, French, Italian support
+-Turkish, French, support
 -GUI interface
