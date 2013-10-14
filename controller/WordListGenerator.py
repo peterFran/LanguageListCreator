@@ -20,7 +20,7 @@ def daily_list(number_words, language_known, language_learning, dictionary="wikt
 	# return 3 lists
 	return word_list
 
-def periodic_revision(days=0,weeks=0,months=0,years=0):
+def periodic_revision(language_learning, days=0,weeks=0,months=0,years=0):
 	languagedb = LanguageDatabase(language_learning)
 	return languagedb.getWordsInPeriod(d=days+weeks*7,m=months,y=years)
 

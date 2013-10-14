@@ -44,13 +44,13 @@ if __name__ == '__main__':
 	term_print = TerminalPrinter()
 	if options.weekly:
 		print "Words Learned In The Last Week.\n"
-		print term_print.periodic_list_printout(periodic_revision(weeks=-1))
+		print term_print.periodic_list_printout(periodic_revision(options.learned, weeks=-1))
 	elif options.monthly:
 		print "Words Learned In The Last Month."
-		print term_print.periodic_list_printout(periodic_revision(months=-1))
+		print term_print.periodic_list_printout(periodic_revision(options.learned,months=-1))
 	elif options.yearly:
 		print "Words Learned In The Last Year."
-		print term_print.periodic_list_printout(periodic_revision(years=-1))
+		print term_print.periodic_list_printout(periodic_revision(options.learned,years=-1))
 	else:
 		word_list = daily_list(int(options.quantity),unicode(options.native,sys.stdin.encoding).encode('utf-8'),unicode(options.learned, sys.stdin.encoding).encode('utf-8'))
 		term_print = TerminalPrinter()
