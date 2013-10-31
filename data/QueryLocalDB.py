@@ -13,33 +13,33 @@ if __name__ == '__main__':
 	ll.getWordsInPeriod(m=-1,d=1)
 
 class LanguageDatabase(object):
-	def __init__(self, language):
-		self.LANGUAGE = language
-		with sqlite3.connect("./data/word_lists.db") as db:
-			cur = db.cursor()
-			cur.execute("SELECT MAX(id) FROM %s" % self.LANGUAGE)
-			self.max_value = cur.fetchone()[0]
+	def __init__(self, database_location):
+		self.database_location = database_location
 
-	def qualify(self,word):
-		with sqlite3.connect("./data/word_lists.db") as db:
-			cur = db.cursor()
-			cur.execute("UPDATE %s SET qualified=1 WHERE word='%s'" % (self.LANGUAGE, word))
-			db.commit()
+	def getNewWord(self, language, user):
+		max_value = self._max_value(language):
 
-	def getNewWord(self):
 		word = None
-		with sqlite3.connect("./data/word_lists.db") as db:
-			cur = db.cursor()			
-			while word is None:
-				index = random.randint(1,self.max_value)
-				cur.execute("SELECT word FROM %s WHERE id IS %d AND date_learned IS null" % (self.LANGUAGE, index))
+		word_id = None
+		with sqlite3.connect(self.database_location) as db:
+			cur = db.cursor()
+			learned = True
+			while learned is True:
+				word_id = random.randint(1,max_value)
+				cur.execute("SELECT id,word FROM %s WHERE id IS %d" % (language, index))
 				try:
 					word = unicode(cur.fetchone()[0])
 				except TypeError as e:
 					word = None
-			cur.execute("UPDATE %s SET date_learned='%s' WHERE id='%d'" % (self.LANGUAGE, str(arrow.now().format('YYYY-MM-DD HH:mm:ss')), index))
+				learned = self._check_if_learned(word_id, language, user)
+			cur.execute("INSERT INTO learned(word_id, user_id, language, date_learned) values(?,?,?,?)",(word_id, user_id, language, str(arrow.now().format('YYYY-MM-DD HH:mm:ss'))))
 			db.commit()
 		return word
+
+	def _check_if_learned(self, word_id, language, user):
+		if word_id is None:
+			return True
+
 
 	def getNewWords(self, number_words):
 		words = []

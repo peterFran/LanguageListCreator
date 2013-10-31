@@ -17,7 +17,7 @@ if cmd_folder not in sys.path:
 	sys.path.insert(0, cmd_folder)
 
 
-parser = MyParser(epilog="""Language Options:\n\tes - Spanish\n\ten - English\nPairing options (learned -> native):\n\tes -> en\n""")
+parser = MyParser(epilog="""Language Options:\n\tes - Spanish\n\ten - English\n\tit - Italian\nPairing options (learned -> native):\n\tes -> en\n\tit -> en\n""")
 
 parser.add_option("-l", "--learning", dest="learned", default="es",
 				  help="Type the first two letters of the language you want to learn. Default: es")  
@@ -46,10 +46,10 @@ if __name__ == '__main__':
 		print "Words Learned In The Last Week.\n"
 		print term_print.periodic_list_printout(periodic_revision(options.learned, weeks=-1))
 	elif options.monthly:
-		print "Words Learned In The Last Month."
+		print "Words Learned In The Last Month.\n"
 		print term_print.periodic_list_printout(periodic_revision(options.learned,months=-1))
 	elif options.yearly:
-		print "Words Learned In The Last Year."
+		print "Words Learned In The Last Year.\n"
 		print term_print.periodic_list_printout(periodic_revision(options.learned,years=-1))
 	else:
 		word_list = daily_list(int(options.quantity),unicode(options.native,sys.stdin.encoding).encode('utf-8'),unicode(options.learned, sys.stdin.encoding).encode('utf-8'))

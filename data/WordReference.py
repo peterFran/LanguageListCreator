@@ -9,13 +9,15 @@ class WordReferenceDefinition(object):
 	READABLE = False
 	def getWordDefinitionAsDict(self, word, dictionary_code):
 		# Use quote method to percent encode, after first encoding utf with hex
-		url_word = urllib2.quote(word.encode('utf-8'))
+		url_word = urllib2.quote(word.encode('utf-8').rstrip())
 		url = "http://api.wordreference.com/0.8/8a8bc/json/%s/%s" %(dictionary_code, url_word)
 		try:
 			# Get the JSON from the web server
 			result = urlopen(url).read().rstrip()
 			return json.loads(result)
 		except urllib2.URLError, e:
+			return None
+		except ValueError, e:
 			return None
 	def getWordDefinitionWithCheck(self, word, dictionary_code):
 		definition = self.getWordDefinitionAsDict(word, dictionary_code)
