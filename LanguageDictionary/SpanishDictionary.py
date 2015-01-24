@@ -1,4 +1,4 @@
-import json, re
+import re, random
 class SpanishDictionary(object):
 	dictionary = list()
 	def __init__(self, file_location):
@@ -13,3 +13,13 @@ class SpanishDictionary(object):
 						self.dictionary.append(word)
 		except IOError:
 			return None
+
+	def all_verbs(self,):
+		all_verbs = [word for word in self.dictionary if not word[0].isupper() and re.match(".*[i|e|a]r$", word)]
+		return all_verbs
+
+	def get_random_word(self):
+		return self.dictionary[random.randrange(0,len(self.dictionary))]
+
+	def get_random_verb(self):
+		return self.all_verbs()[random.randrange(0, len(self.all_verbs()))]
