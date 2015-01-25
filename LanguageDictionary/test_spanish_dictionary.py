@@ -1,11 +1,12 @@
-import re, pytest
+import re, pytest, urllib, pprint
 from SpanishDictionary import SpanishDictionary
-
-dic = SpanishDictionary('/home/peter/Development/llc/LanguageListCreator/dic/es.dic')
 
 @pytest.fixture
 def dic():
-	return SpanishDictionary('/home/peter/Development/llc/LanguageListCreator/dic/es.dic')
+	import os
+	directory = os.path.dirname(__file__)
+	filename = os.path.join(directory, '../dic/es.dic')
+	return SpanishDictionary(filename)
 
 def test_no_numbers(dic):
 	words_containing_nums =[x for x in dic.dictionary if not re.search("\w",x)]
@@ -18,4 +19,11 @@ def test_artifacts_not_null(dic):
 	assert len(dic.dictionary) > 0
 	assert len(dic.get_random_word()) > 0
 	assert len(dic.get_random_verb()) > 0
+	assert len(dic.get_random_word_translated()) > 0
+	assert len(dic.get_random_word_translated()) > 0
+
+def test_random_translated_word_exists(dic):
+	pp = pprint.PrettyPrinter(indent=4)
+	pp.pprint(dic.get_random_word_translated())
+
 
