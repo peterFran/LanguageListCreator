@@ -1,0 +1,10 @@
+langtools/LanguageListCreator.py
+langtools/SpanishDictionary.py
+langtools/SpanishTranslator.py
+langtools/__init__.py
+langtools.egg-info/PKG-INFO
+langtools.egg-info/SOURCES.txt
+langtools.egg-info/dependency_links.txt
+langtools.egg-info/top_level.txt
+test/test_language_list_creator.py
+test/test_spanish_dictionary.py

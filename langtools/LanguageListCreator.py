@@ -1,10 +1,10 @@
-from .LanguageDictionary.SpanishDictionary import SpanishDictionary
-from .Translator.SpanishTranslator import SpanishTranslator
+from langtools.SpanishDictionary import SpanishDictionary
+from langtools.SpanishTranslator import SpanishTranslator
 
 class LanguageListCreator(object):
-	def __init__(self):
-		self.dictionary = SpanishDictionary("dic/es.dic")
-		self.translator = SpanishTranslator()
+	def __init__(self, wordreference_api_key='8a8bc'):
+		self.dictionary = SpanishDictionary()
+		self.translator = SpanishTranslator(wordreference_api_key)
 
 	def random_verbs(self, number):
 		word_array = dict()
@@ -15,4 +15,7 @@ class LanguageListCreator(object):
 				if word not in word_array:
 					translated_word = self.translator.translate_word(word)
 			word_array[word]=translated_word
-		return word_array
+		return list(word_array.values())
+
+if __name__ == '__main__':
+	llc = LanguageListCreator()

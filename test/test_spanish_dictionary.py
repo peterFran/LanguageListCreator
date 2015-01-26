@@ -1,15 +1,13 @@
 import re, pytest, pprint
 from unittest.mock import Mock
-from .LanguageDictionary.SpanishDictionary import SpanishDictionary
-from .Translator.SpanishTranslator import SpanishTranslator
-from LanguageListCreator import LanguageListCreator
+from langtools.SpanishDictionary import SpanishDictionary
+from langtools.SpanishTranslator import SpanishTranslator
 
 @pytest.fixture
 def dic():
-	import os
-	directory = os.path.dirname(__file__)
-	filename = os.path.join(directory, 'dic/es.dic')
-	return SpanishDictionary(filename)
+	dic = SpanishDictionary()
+	assert len(dic.dictionary) > 0
+	return dic
 
 def test_no_numbers(dic):
 	words_containing_nums =[x for x in dic.dictionary if not re.search("\w",x)]
@@ -33,7 +31,7 @@ def test_nonexistent_word_returns_none(dic):
 def test_hola_returns_dict(dic):
 	translator = SpanishTranslator()
 	fetched_translation = translator.translate_word("hola")
-	assert fetched_translation == "Hello!"
+	assert fetched_translation == {"Original Word":"hola", "First Translation":'Hello!', "Second Translation":'hello', "First Compound":'¡Hola, chicos!', "First Compound Translation": 'hi, boys! hello, boys!', "Second Compound Translation":"Hello, people! Hi, folks!", "Second Compound": "¡Hola, gente!"}
 
 def test_known_awkward_case(dic):
 	translator = SpanishTranslator()
