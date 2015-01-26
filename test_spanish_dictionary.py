@@ -1,7 +1,8 @@
-import re, pytest, urllib, pprint
+import re, pytest, pprint
 from unittest.mock import Mock
 from .LanguageDictionary.SpanishDictionary import SpanishDictionary
 from .Translator.SpanishTranslator import SpanishTranslator
+from LanguageListCreator import LanguageListCreator
 
 @pytest.fixture
 def dic():
@@ -39,13 +40,5 @@ def test_known_awkward_case(dic):
 	fetched_translation = translator.translate_word("enfrascar")
 	assert fetched_translation is None
 
-# def test_get_list_translations(dic):
-# 	translator = SpanishTranslator()
-# 	#pp = pprint.PrettyPrinter(indent=2)
-# 	#pp.pprint([{word:translator.translated_word(word)} for word in [dic.get_random_verb() for i in range(0,10)]])
-# 	for i in range(0,10):
-# 		translated_word, word = None, None
-# 		while translated_word is None:
-# 			word = dic.get_random_verb()
-# 			translated_word = translator.translate_word(word)
-# 		print(word+" --- "+translated_word)
+
+
