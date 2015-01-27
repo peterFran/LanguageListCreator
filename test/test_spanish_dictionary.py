@@ -1,8 +1,5 @@
-import re, pytest, pprint
-from unittest.mock import Mock
 from langtools.SpanishDictionary import SpanishDictionary
-from langtools.SpanishTranslator import SpanishTranslator
-
+import pytest, re
 @pytest.fixture
 def dic():
 	dic = SpanishDictionary()
@@ -23,20 +20,7 @@ def test_artifacts_not_null(dic):
 
 
 
-def test_nonexistent_word_returns_none(dic):
-	translator = SpanishTranslator()
-	fetched_translation = translator.translate_word_full("zzzzzzz")
-	assert fetched_translation == {'Error' : 'NoTranslation', 'Note' : 'No se ha encontrado ninguna traducción para zzzzzzz.\nNo translation was found for zzzzzzz.'}
 
-def test_hola_returns_dict(dic):
-	translator = SpanishTranslator()
-	fetched_translation = translator.translate_word("hola")
-	assert fetched_translation == {"Original Word":"hola", "First Translation":'Hello!', "Second Translation":'hello', "First Compound":'¡Hola, chicos!', "First Compound Translation": 'hi, boys! hello, boys!', "Second Compound Translation":"Hello, people! Hi, folks!", "Second Compound": "¡Hola, gente!"}
-
-def test_known_awkward_case(dic):
-	translator = SpanishTranslator()
-	fetched_translation = translator.translate_word("enfrascar")
-	assert fetched_translation is None
 
 
 

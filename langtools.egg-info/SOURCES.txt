@@ -6,5 +6,8 @@ langtools.egg-info/PKG-INFO
 langtools.egg-info/SOURCES.txt
 langtools.egg-info/dependency_links.txt
 langtools.egg-info/top_level.txt
+langtools/dic/es.dic
+langtools/dic/it.dic
+langtools/dic/tr.dic
 test/test_language_list_creator.py
 test/test_spanish_dictionary.py

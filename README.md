@@ -1,22 +1,12 @@
 LanguageListCreator
 ===================
 
-A tool to help generate random lists of words with translations.
-Useful if you want to try to memorize a certain number of words a day.
+Tool has 3 parts - currently only in Spanish:
+Dictionary - rudimentary checking for verbs, can be improved
+Translator - translates using wordreference API + condenses output
+ListCreator - creates (currently random) lists of words
 
-Current capability is only command line, with serious restrictions.
+usage currently restricted to modular. setup.py file included
 
-After downloading, simply go to the root project directory and type in:
-python languagelistcreator.py
+get_list.py produces a prettified table of sample output
 
-This will set up your database, and also give you your first 10 words.
-If no --quantity option is specified, then the default number of words is 10
-
-More languages and functionality coming!
-
-Features in the pipeline:
--Definition option
--PDF creationg
--Automatic periodic list creation
--Turkish, French, support
--GUI interface
