@@ -8,7 +8,7 @@ class SpanishTranslator(object):
 
 	def translate_word_full(self, word):
 		# Use quote method to percent encode, after first encoding utf with hex
-		word_url = self.url.format(word)
+		word_url = self.url.format(quote(word))
 		try:
 			# Get the JSON from the web server
 			raw_json_result = urlopen(word_url).read().rstrip()

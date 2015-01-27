@@ -13,3 +13,9 @@ def test_known_awkward_case():
 	translator = SpanishTranslator()
 	fetched_translation = translator.translate_word("enfrascar")
 	assert fetched_translation is None
+
+def test_utf8_word():
+	translator = SpanishTranslator()
+	fetched_translation = translator.translate_word("abolición")
+	assert fetched_translation != None
+	assert fetched_translation["First Translation"] == 'abolition'
