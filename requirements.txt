@@ -1,7 +1,10 @@
+-e git+git@github.com-peterFran:peterFran/LanguageListCreator@a7561fd3a684a7202accf67e2956ede54ac44303#egg=langtools-origin/master
+nltk==3.0.1
 pkginfo==1.2.1
 prettytable==0.7.2
 py==1.4.26
 pytest==2.6.4
 requests==2.5.1
+termcolor==1.1.0
 twine==1.4.0
 wheel==0.24.0
