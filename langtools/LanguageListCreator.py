@@ -33,17 +33,24 @@ class LanguageListCreator(object):
 			word_array[word]=translated_word
 		return list(word_array.values())
 
-	def get_list_from_file(self, path_to_file):
+	def get_list_from_file(self, path_to_file, num):
 		tokenizer = RegexpTokenizer(r'\w+')
 		text = open(path_to_file, 'r').read()
-		tokenized_words = tokenizer.tokenize(text)[:50]
-		word_array = dict()
+		tokenized_words = tokenizer.tokenize(text)[:num]
+		word_dict = dict()
+		word_count = dict()
+		word_list = list()
 		for word in tokenized_words:
-			if word not in word_array:
+			if word not in word_dict:
 				translated_word = self.translator.translate_word(word)
 				if translated_word is not None:
-					word_array[word]=translated_word
-		return list(word_array.values())
+					word_dict[word]=translated_word
+					word_count[word]=0
+			else:
+				word_count[word] +=1
+		print(word_count)
+		word_list = [word_dict[word] for word in sorted(word_count, key=word_count.get, reverse=True)]
+		return word_list
 
 
 

@@ -1,10 +1,14 @@
+#!/usr/bin/env python
 from langtools.LanguageListCreator import LanguageListCreator
 from prettytable import PrettyTable
 from termcolor import *
-
+import sys
 llc = LanguageListCreator()
-
-words = llc.get_list_from_file('resources/cien.txt')
+words = []
+num = 5
+if len(sys.argv) > 1:
+	num = int(sys.argv[1])
+words = llc.get_list_from_file('resources/cien.txt', num)
 table = PrettyTable(["Word",
 	"First Translation",
 	"Second Translation",
@@ -13,6 +17,7 @@ table = PrettyTable(["Word",
 	#"Second Compound", 
 	#"First Compound Translation",
 	])
+table.max_width["First Compound"] =30
 i =0
 for translations in words:
 	
@@ -22,7 +27,7 @@ for translations in words:
 		elif i % 4 == 2 :
 			return colored("---","green") if s is None else colored(s, "green")
 		elif i % 4 == 1:
-			return "---" if s is None else s
+			return colored("---","white") if s is None else colored(s,"white")
 		else:
 			return colored("---","yellow") if s is None else colored(s, "yellow")
 	table.add_row([
