@@ -1,6 +1,5 @@
 #!/usr/bin/env python
-from langtools.LanguageListCreator import LanguageListCreator
-from html.parser import HTMLParser
+from langtools.EpubTranslationList import EpubTranslationList
 from prettytable import PrettyTable
 from ebooklib import epub
 from termcolor import *
@@ -9,17 +8,13 @@ from bs4 import BeautifulSoup
 # create a subclass and override the handler methods
 
 if len(sys.argv) > 1:
-	book = epub.read_epub(sys.argv[1])
-	items = [item for item in book.items if 'is_chapter' in dir(item)]
+	book = EpubTranslationList(sys.argv[1])
 	if len(sys.argv) < 3:		
 		#print(dir(epub.EpubReader(sys.argv[1]).book))
 		print("Imported {0}, please select which chapter to read".format(book.title))
 		
-		for index, item in enumerate(items):
-			#print(item.get_type)
-			if 'is_chapter' in dir(item):
-				#print(dir(item))
-				print("{0}. {1}".format(index,item.get_name()))
+		for index, item in book.chapters:
+			print("{0}. {1}".format(index,item.get_name()))
 	else:
 		chapter = items[int(sys.argv[2])].get_content().decode('utf-8')
 		soup = BeautifulSoup(chapter)
