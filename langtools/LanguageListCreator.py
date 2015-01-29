@@ -3,6 +3,7 @@ from langtools.SpanishTranslator import SpanishTranslator
 import nltk
 from nltk import sent_tokenize, word_tokenize, pos_tag
 from nltk.tokenize import RegexpTokenizer
+from collections import Counter
 
 
 
@@ -52,6 +53,31 @@ class LanguageListCreator(object):
 		word_list = [word_dict[word] for word in sorted(word_count, key=word_count.get, reverse=True)]
 		return word_list
 
+	def get_list_from_text(self, text, num):
+		tokenizer = RegexpTokenizer(r'\w+')
+		tokenized_words = tokenizer.tokenize(text)
+		#print(tokenized_words)
+		word_dict = dict()
+		word_count = dict()
+		word_list = list()
+		for word in tokenized_words:
+			if word not in word_count:
+				word_count[word]=0
+			else:
+				word_count[word] +=1
+		counted = Counter(word_count).most_common()
+		index = 0
+		translated_words = []
+		for word in counted:
+			if index < num:
+				print(word)
+				attempted = self.translator.translate_word(word[0])
+				if attempted is not None:
+					translated_words.append(attempted)
+					index += 1
+			else:
+				break
+		return translated_words
 
 
 

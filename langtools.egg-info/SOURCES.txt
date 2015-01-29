@@ -11,3 +11,4 @@ langtools/dic/it.dic
 langtools/dic/tr.dic
 test/test_language_list_creator.py
 test/test_spanish_dictionary.py
+test/test_spanish_translator.py

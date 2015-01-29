@@ -1,10 +1,13 @@
--e git+git@github.com-peterFran:peterFran/LanguageListCreator@a7561fd3a684a7202accf67e2956ede54ac44303#egg=langtools-origin/master
+EbookLib==0.15
+beautifulsoup4==4.3.2
+-e git+git@github.com-peterFran:peterFran/LanguageListCreator@4219f41058f1f3ddf4df5c89657acb79ec656ba0#egg=langtools-origin/master
+lxml==3.4.1
 nltk==3.0.1
 pkginfo==1.2.1
 prettytable==0.7.2
 py==1.4.26
 pytest==2.6.4
 requests==2.5.1
+six==1.9.0
 termcolor==1.1.0
 twine==1.4.0
-wheel==0.24.0
