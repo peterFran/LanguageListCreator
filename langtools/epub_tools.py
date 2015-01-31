@@ -26,6 +26,7 @@ parser.add_option("-n", "--number",
 					action="store",
 					dest="number",
 					type="int",
+					help="number of words you'd like to see.",
 					default=5)
 (options, args) = parser.parse_args()
 if options.filename is not None:
