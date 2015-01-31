@@ -1,45 +1,52 @@
 from ebooklib import epub
 from bs4 import BeautifulSoup
 from langtools.SpanishTranslator import SpanishTranslator
-
+from nltk.tokenize import RegexpTokenizer
+from collections import Counter
+from copy import copy
 
 class EpubTranslationList(object):
 	"""docstring for EpubTranslationList"""
 	def __init__(self, book_location):
 		super(EpubTranslationList, self).__init__()
 		book = epub.read_epub(book_location)
-		items = [item for item in book.items if 'is_chapter' in dir(item)]
-		self.chapters = [(index, items) for enumerate(items)]
+		# Filter out pictures and the like
+		self.chapters = [item for item in book.items if 'is_chapter' in dir(item)]
 		self.title = book.title
 
 	def get_chapter(self, number):
-		chapter = items[number].get_content().decode('utf-8')
+		# pass xml to ChapterTranslationList and return it
+		chapter = self.chapters[number].get_content().decode('utf-8')
 		return ChapterTranslationList(chapter)
-
 
 class ChapterTranslationList(object):
 	"""docstring for ChapterTranslationList"""
 	def __init__(self, xml_chapter):
 		super(ChapterTranslationList, self).__init__()
-		self.text = BeautifulSoup(chapter).get_text()
+
+		# Tokenize the text
+		self.text = BeautifulSoup(xml_chapter).get_text()
 		tokenizer = RegexpTokenizer(r'\w+')
 		tokenized_words = tokenizer.tokenize(self.text)
-		word_count = dict()
-		# Get counts for word in chapters
-		for word in tokenized_words:
-			if word not in word_count:
-				word_count[word]=0
-			else:
-				word_count[word] +=1
-		self.counted_words = Counter(word_count).most_common()
 
-	def get_most_common(self, number):
+		# Get most and least common orderings
+		self.most_common_words = Counter(tokenized_words).most_common()
+		self.least_common_words = copy(self.most_common_words)
+		self.least_common_words.reverse()
+
+		# Get translator object
+		self.translator = SpanishTranslator()
+
+	def get_most_common(self, number_words):
 		index = 0
 		translated_words = []
-		for word in counted:
-			if index < num:
-				print(word)
+		# Loop over the words in sorted dict
+		for word in self.most_common_words:
+			# If we haven't got enough words yet
+			if index < number_words:
+				# try to get a translation
 				attempted = self.translator.translate_word(word[0])
+				# if it works, add it to the list to be returned
 				if attempted is not None:
 					translated_words.append(attempted)
 					index += 1
@@ -47,4 +54,20 @@ class ChapterTranslationList(object):
 				break
 		return translated_words
 		
+	def get_least_common(self, number_words):
+		index = 0
+		translated_words = []
+		# Loop over the words in sorted dict
+		for word in self.least_common_words:
+			# If we haven't got enough words yet
+			if index < number_words:
+				# try to get a translation
+				attempted = self.translator.translate_word(word[0])
+				# if it works, add it to the list to be returned
+				if attempted is not None:
+					translated_words.append(attempted)
+					index += 1
+			else:
+				break
+		return translated_words
 		
