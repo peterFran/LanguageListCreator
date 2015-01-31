@@ -1,7 +1,6 @@
+from __future__ import unicode_literals
 import re, random, json, langtools, pkgutil
-from urllib.parse import quote
-from urllib.request import urlopen
-from urllib.request import URLError
+
 class SpanishDictionary(object):
 	dictionary = list()
 	def __init__(self,):

@@ -1,3 +1,10 @@
+# coding=utf-8
+# Future modules imported for backwards compatibility
+
+from __future__ import unicode_literals
+from future.standard_library import install_aliases
+install_aliases()
+
 import re, random, json
 from urllib.parse import quote
 from urllib.request import urlopen
@@ -12,19 +19,24 @@ class SpanishTranslator(object):
 		try:
 			# Get the JSON from the web server
 			raw_json_result = urlopen(word_url).read().rstrip()
-			result = json.loads(raw_json_result.decode())
+			result = json.loads(raw_json_result.decode('utf-8').strip())
+
+
 			return result
 		except URLError as e:
 			return None
-		except ValueError as e:
-			return None
+		#except ValueError as e:
+		#	return None
 
 	def translate_word(self, word):
 		word_object = self.translate_word_full(word)
 		word_dict = {"Original Word":word, "First Translation":None, "Second Translation":None, "First Compound":None, "First Compound Translation": None, "Second Compound":None, "Second Compound Translation": None}
+		#print word_object
 		if word_object is None:
+		#	print "fook"
 			return None
 		if 'term0' not in word_object or 'PrincipalTranslations' not in word_object['term0']:
+		#	print "fook2"
 			return None
 		word_dict['First Translation']= word_object['term0']['PrincipalTranslations']['0']['FirstTranslation']['term']
 

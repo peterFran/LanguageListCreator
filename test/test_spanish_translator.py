@@ -1,3 +1,7 @@
+# coding=utf-8
+# Future modules imported for backwards compatibility
+
+from __future__ import unicode_literals
 from langtools.SpanishTranslator import SpanishTranslator
 def test_nonexistent_word_returns_none():
 	translator = SpanishTranslator()

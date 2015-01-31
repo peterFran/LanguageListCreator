@@ -1,7 +1,10 @@
+langtools/EpubTranslationList.py
 langtools/LanguageListCreator.py
 langtools/SpanishDictionary.py
 langtools/SpanishTranslator.py
 langtools/__init__.py
+langtools/epub_tools.py
+langtools/print_tools.py
 langtools.egg-info/PKG-INFO
 langtools.egg-info/SOURCES.txt
 langtools.egg-info/dependency_links.txt
@@ -9,6 +12,7 @@ langtools.egg-info/top_level.txt
 langtools/dic/es.dic
 langtools/dic/it.dic
 langtools/dic/tr.dic
+test/test_epub_translation_list.py
 test/test_language_list_creator.py
 test/test_spanish_dictionary.py
 test/test_spanish_translator.py

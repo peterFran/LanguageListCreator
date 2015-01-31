@@ -1,3 +1,4 @@
+from __future__ import unicode_literals
 from termcolor import *
 from prettytable import PrettyTable
 
