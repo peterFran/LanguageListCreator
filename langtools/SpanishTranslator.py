@@ -22,20 +22,25 @@ class SpanishTranslator(object):
 	def translate_word(self, word):
 		word_object = self.translate_word_full(word)
 		word_dict = {"Original Word":word, "First Translation":None, "Second Translation":None, "First Compound":None, "First Compound Translation": None, "Second Compound":None, "Second Compound Translation": None}
-		if word_object is None:
+		#Get primary
+		try:
+			word_dict['First Translation']= word_object['term0']['PrincipalTranslations']['0']['FirstTranslation']['term']
+		except KeyError as k:
 			return None
-		if 'term0' not in word_object or 'PrincipalTranslations' not in word_object['term0']:
-			return None
-		word_dict['First Translation']= word_object['term0']['PrincipalTranslations']['0']['FirstTranslation']['term']
 
-		if "1" in word_object['term0']['PrincipalTranslations']:
+		# Get secondary translations
+		try:
 			word_dict['Second Translation'] = word_object['term0']['PrincipalTranslations']['1']['FirstTranslation']['term']
-
-		if "original" in word_object and "Compounds" in word_object['original']:
+		except KeyError as k:
+			pass
+			
+		# Get compounds
+		try:
 			word_dict["First Compound"] = word_object['original']['Compounds']['0']['OriginalTerm']['term']
 			word_dict["First Compound Translation"] = word_object['original']['Compounds']['0']['FirstTranslation']['term']
-
-			if "1" in word_object['original']['Compounds']:
-				word_dict["Second Compound"] = word_object['original']['Compounds']['1']['OriginalTerm']['term']
-				word_dict["Second Compound Translation"] = word_object['original']['Compounds']['1']['FirstTranslation']['term']
+			word_dict["Second Compound"] = word_object['original']['Compounds']['1']['OriginalTerm']['term']
+			word_dict["Second Compound Translation"] = word_object['original']['Compounds']['1']['FirstTranslation']['term']
+		except KeyError as k:
+			pass
+				
 		return word_dict

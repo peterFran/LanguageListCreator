@@ -48,6 +48,7 @@ class ChapterTranslationList(object):
 				attempted = self.translator.translate_word(word[0])
 				# if it works, add it to the list to be returned
 				if attempted is not None:
+					attempted['count'] = word[1]
 					translated_words.append(attempted)
 					index += 1
 			else:
@@ -65,6 +66,7 @@ class ChapterTranslationList(object):
 				attempted = self.translator.translate_word(word[0])
 				# if it works, add it to the list to be returned
 				if attempted is not None:
+					attempted['count'] = word[1]
 					translated_words.append(attempted)
 					index += 1
 			else:
