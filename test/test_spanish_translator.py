@@ -7,7 +7,7 @@ def test_nonexistent_word_returns_none():
 def test_hola_returns_dict():
 	translator = SpanishTranslator()
 	fetched_translation = translator.translate_word("hola")
-	assert fetched_translation == {"Original Word":"hola", "First Translation":'Hello!', "Second Translation":'hello', "First Compound":'¡Hola, chicos!', "First Compound Translation": 'hi, boys! hello, boys!', "Second Compound Translation":"Hello, people! Hi, folks!", "Second Compound": "¡Hola, gente!"}
+	assert fetched_translation == {"Word":"hola", "First Translation":'Hello!', "Second Translation":'hello', "First Compound":'¡Hola, chicos!', "First Compound Translation": 'hi, boys! hello, boys!', "Second Compound Translation":"Hello, people! Hi, folks!", "Second Compound": "¡Hola, gente!"}
 
 def test_known_awkward_case():
 	translator = SpanishTranslator()

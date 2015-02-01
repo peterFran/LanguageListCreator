@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 from langtools.EpubTranslationList import EpubTranslationList
-from langtools.print_tools import print_list_to_terminal
+from langtools.print_tools import print_list_to_terminal, print_untranslated_to_table
 from optparse import OptionParser
 # create a subclass and override the handler methods
 
@@ -28,6 +28,11 @@ parser.add_option("-n", "--number",
 					type="int",
 					help="number of words you'd like to see.",
 					default=5)
+parser.add_option("-t", "--translate",
+					action="store_true",
+					dest="translate",
+					help="flag to attempt translations",
+					default=False)
 (options, args) = parser.parse_args()
 if options.filename is not None:
 	book = EpubTranslationList(options.filename)
@@ -40,7 +45,10 @@ if options.filename is not None:
 		chapter = book.get_chapter(options.chapter)
 		words = []
 		if options.reverse is True:
-			words = chapter.get_least_common(options.number)
+			words = chapter.get_least_common(options.number, options.translate)
 		else:
-			words = chapter.get_most_common(options.number)
-		print_list_to_terminal(words)
+			words = chapter.get_most_common(options.number, options.translate)
+		if options.translate:
+			print_list_to_terminal(words)
+		else:
+			print_untranslated_to_table(words)

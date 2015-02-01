@@ -21,7 +21,7 @@ class SpanishTranslator(object):
 
 	def translate_word(self, word):
 		word_object = self.translate_word_full(word)
-		word_dict = {"Original Word":word, "First Translation":None, "Second Translation":None, "First Compound":None, "First Compound Translation": None, "Second Compound":None, "Second Compound Translation": None}
+		word_dict = {"Word":word, "First Translation":None, "Second Translation":None, "First Compound":None, "First Compound Translation": None, "Second Compound":None, "Second Compound Translation": None}
 		#Get primary
 		try:
 			word_dict['First Translation']= word_object['term0']['PrincipalTranslations']['0']['FirstTranslation']['term']

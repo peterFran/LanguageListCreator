@@ -28,6 +28,7 @@ class ChapterTranslationList(object):
 		self.text = BeautifulSoup(xml_chapter).get_text()
 		tokenizer = RegexpTokenizer(r'\w+')
 		tokenized_words = tokenizer.tokenize(self.text)
+		#stemmed_words = [word.]
 
 		# Get most and least common orderings
 		self.most_common_words = Counter(tokenized_words).most_common()
@@ -37,39 +38,35 @@ class ChapterTranslationList(object):
 		# Get translator object
 		self.translator = SpanishTranslator()
 
-	def get_most_common(self, number_words):
+	def _get_n_words(self, number_words, ordered_tokens, translate=False):
 		index = 0
-		translated_words = []
+		word_list = []
 		# Loop over the words in sorted dict
-		for word in self.most_common_words:
+		for word in ordered_tokens:
 			# If we haven't got enough words yet
 			if index < number_words:
-				# try to get a translation
-				attempted = self.translator.translate_word(word[0])
-				# if it works, add it to the list to be returned
-				if attempted is not None:
-					attempted['count'] = word[1]
-					translated_words.append(attempted)
+				# If we want a translation
+				if translate is True:
+					# try to get a translation
+					attempted = self.translator.translate_word(word[0])
+					# if it works, add it to the list to be returned
+					if attempted is not None:
+						attempted['Count'] = word[1]
+						word_list.append(attempted)
+						index += 1
+				else:
+					attempted={'Word':word[0], 'Count':word[1]}
+					attempted['Word'] = word[0]
+					attempted['Count'] = word[1]
+					word_list.append(attempted)
 					index += 1
 			else:
 				break
-		return translated_words
+		return word_list
+
+	def get_most_common(self, number_words, translate=False):
+		return self._get_n_words(number_words,self.most_common_words,translate)
 		
-	def get_least_common(self, number_words):
-		index = 0
-		translated_words = []
-		# Loop over the words in sorted dict
-		for word in self.least_common_words:
-			# If we haven't got enough words yet
-			if index < number_words:
-				# try to get a translation
-				attempted = self.translator.translate_word(word[0])
-				# if it works, add it to the list to be returned
-				if attempted is not None:
-					attempted['count'] = word[1]
-					translated_words.append(attempted)
-					index += 1
-			else:
-				break
-		return translated_words
+	def get_least_common(self, number_words, translate=False):
+		return self._get_n_words(number_words,self.least_common_words,translate)
 		
