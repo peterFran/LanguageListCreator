@@ -33,6 +33,11 @@ parser.add_option("-t", "--translate",
 					dest="translate",
 					help="flag to attempt translations",
 					default=False)
+parser.add_option("-v", "--verbs",
+					action="store_true",
+					dest="verbs",
+					help="flag to show verbs",
+					default=False)
 (options, args) = parser.parse_args()
 if options.filename is not None:
 	book = EpubTranslationList(options.filename)
@@ -44,7 +49,9 @@ if options.filename is not None:
 	else:
 		chapter = book.get_chapter(options.chapter)
 		words = []
-		if options.reverse is True:
+		if options.verbs is True:
+			words = chapter.get_verbs(options.number, options.translate)
+		elif options.reverse is True:
 			words = chapter.get_least_common(options.number, options.translate)
 		else:
 			words = chapter.get_most_common(options.number, options.translate)

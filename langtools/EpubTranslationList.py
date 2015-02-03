@@ -4,6 +4,7 @@ from langtools.SpanishTranslator import SpanishTranslator
 from nltk.tokenize import RegexpTokenizer
 from collections import Counter
 from copy import copy
+import pickle
 
 class EpubTranslationList(object):
 	"""docstring for EpubTranslationList"""
@@ -28,13 +29,32 @@ class ChapterTranslationList(object):
 		self.text = BeautifulSoup(xml_chapter).get_text()
 		tokenizer = RegexpTokenizer(r'\w+')
 		tokenized_words = tokenizer.tokenize(self.text)
-		#stemmed_words = [word.]
+		
+		# Tag words
+		
+		class_tagger = None
+		try:
+			with open('class.pickle', 'rb') as fa:
+				class_tagger = pickle.load(fa)
+		except FileNotFoundError as a:
+		    # training data
+		    print("Language Tagger does not exist in memory, recreating tagger")
+		    from nltk.tag.sequential import ClassifierBasedPOSTagger
+		    class_tagger = ClassifierBasedPOSTagger(train=train)
+
+		    with open('class.pickle', 'wb') as fb:
+		        pickle.dump(class_tagger, fb)
+
 
 		# Get most and least common orderings
 		self.most_common_words = Counter(tokenized_words).most_common()
 		self.least_common_words = copy(self.most_common_words)
 		self.least_common_words.reverse()
 
+		# Tag words
+		self.tagged_words = class_tagger.tag(tokenized_words)
+		self.verbs = Counter([x[0] for x in self.tagged_words if x[1][0] == 'v']).most_common()
+		print(self.verbs)
 		# Get translator object
 		self.translator = SpanishTranslator()
 
@@ -69,4 +89,7 @@ class ChapterTranslationList(object):
 		
 	def get_least_common(self, number_words, translate=False):
 		return self._get_n_words(number_words,self.least_common_words,translate)
+
+	def get_verbs(self,number_words, translate=False):
+		return self._get_n_words(number_words,self.verbs,translate)
 		
