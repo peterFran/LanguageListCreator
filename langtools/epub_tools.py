@@ -50,7 +50,10 @@ if options.filename is not None:
 		chapter = book.get_chapter(options.chapter)
 		words = []
 		if options.verbs is True:
-			words = chapter.get_verbs(options.number, options.translate)
+			if options.reverse is False:
+				words = chapter.get_most_common_verbs(options.number, options.translate)
+			if options.reverse is True:
+				words = chapter.get_least_common_verbs(options.number, options.translate)
 		elif options.reverse is True:
 			words = chapter.get_least_common(options.number, options.translate)
 		else:
