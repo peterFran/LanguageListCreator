@@ -42,7 +42,8 @@ class TextTranslationList(object):
 		    # training data
 		    print("Language Tagger does not exist in memory, recreating tagger")
 		    from nltk.tag.sequential import ClassifierBasedPOSTagger
-		    class_tagger = ClassifierBasedPOSTagger(train=train)
+		    from nltk.corpus import cess_esp
+		    class_tagger = ClassifierBasedPOSTagger(train=cess_esp.tagged_sents())
 
 		    with open('class.pickle', 'wb') as fb:
 		        pickle.dump(class_tagger, fb)
