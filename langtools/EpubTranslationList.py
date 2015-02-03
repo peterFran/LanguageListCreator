@@ -20,13 +20,15 @@ class EpubTranslationList(object):
 		chapter = self.chapters[number].get_content().decode('utf-8')
 		return ChapterTranslationList(chapter)
 
-class ChapterTranslationList(object):
-	"""docstring for ChapterTranslationList"""
-	def __init__(self, xml_chapter):
-		super(ChapterTranslationList, self).__init__()
 
+
+
+class TextTranslationList(object):
+	"""docstring for ClassName"""
+	def __init__(self, chapter):
+		self.text = chapter
 		# Tokenize the text
-		self.text = BeautifulSoup(xml_chapter).get_text()
+		
 		tokenizer = RegexpTokenizer(r'\w+')
 		tokenized_words = tokenizer.tokenize(self.text)
 		
@@ -93,3 +95,8 @@ class ChapterTranslationList(object):
 	def get_verbs(self,number_words, translate=False):
 		return self._get_n_words(number_words,self.verbs,translate)
 		
+class ChapterTranslationList(TextTranslationList):
+	"""docstring for ChapterTranslationList"""
+	def __init__(self, xml_chapter):
+		chapter = BeautifulSoup(xml_chapter).get_text()
+		TextTranslationList.__init__(self, chapter)
