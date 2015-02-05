@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-from langtools.EpubTranslationList import EpubTranslationList
+from langtools.translator.EpubTranslation import EpubTranslation
 from langtools.print_tools import print_list_to_terminal, print_untranslated_to_table
 from optparse import OptionParser
 # create a subclass and override the handler methods
@@ -45,7 +45,7 @@ parser.add_option("-n", "--nouns",
 					default=False)
 (options, args) = parser.parse_args()
 if options.filename is not None:
-	book = EpubTranslationList(options.filename)
+	book = EpubTranslation(options.filename)
 	if options.chapter is None:		
 		print("Imported {0}, please select which chapter to read".format(book.title))
 		

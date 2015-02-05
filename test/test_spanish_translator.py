@@ -1,4 +1,4 @@
-from langtools.SpanishTranslator import SpanishTranslator
+from langtools.translator.SpanishTranslator import SpanishTranslator
 def test_nonexistent_word_returns_none():
 	translator = SpanishTranslator()
 	fetched_translation = translator.translate_word_full("zzzzzzz")
