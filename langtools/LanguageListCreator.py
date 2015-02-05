@@ -1,5 +1,5 @@
-from langtools.SpanishDictionary import SpanishDictionary
-from langtools.SpanishTranslator import SpanishTranslator
+from langtools.dictionary.SpanishDictionary import SpanishDictionary
+from langtools.translator.SpanishTranslator import SpanishTranslator
 import nltk
 from nltk import sent_tokenize, word_tokenize, pos_tag
 from nltk.tokenize import RegexpTokenizer

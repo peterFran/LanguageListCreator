@@ -1,4 +1,4 @@
-from langtools.SpanishDictionary import SpanishDictionary
+from langtools.dictionary.SpanishDictionary import SpanishDictionary
 import pytest, re
 @pytest.fixture
 def dic():

@@ -11,7 +11,7 @@ def test_same_verb_not_produced_twice():
 def test_required_fields_present():
 	llc = LanguageListCreator()
 	word = llc.random_verbs(1)[0]
-	assert "Original Word" in word
+	assert "Word" in word
 	assert "First Translation" in word
 	assert "Second Translation" in word
 	assert "First Compound" in word
