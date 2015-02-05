@@ -1,15 +1,22 @@
 LanguageListCreator
 ===================
 
-Tool has 3 parts - currently only in Spanish:
+The project is designed to take an EPUB book and output a lest of translated words in a given chapter.
 
-*Dictionary - rudimentary checking for verbs, can be improved
+The problem that this project is aimed to solve is the inability of a reader to fully enjoy a story if their primary concern is learning new vocabulary.
 
-*Translator - translates using wordreference API + condenses output
+The tool outputs a list of most comminly used words in the chapter, with translations.
 
-*ListCreator - creates (currently random) lists of words
+example usage
+./epub_tools.py -f resources/DonQuijote.epub -c24 -v -n 20
+this tells the program that I want the 20 most common verbs from the book Don Quijote
 
-usage currently restricted to modular. setup.py file included
-
-get_list.py produces a prettified table of sample output
-
+Main tools
+/langtools
+	/dictionary
+		- SpanishDictionary.py
+	/translator
+		- SpanishTranslator.py
+		- TextTranslation.py
+	- epub_tools.py
+	
