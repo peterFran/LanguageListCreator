@@ -22,7 +22,7 @@ parser.add_option("-r", "--reverse",
 					help="see least common words",
 					action="store_true",
 					default=False)
-parser.add_option("-n", "--number",
+parser.add_option("-q", "--quantity",
 					action="store",
 					dest="number",
 					type="int",
@@ -37,6 +37,11 @@ parser.add_option("-v", "--verbs",
 					action="store_true",
 					dest="verbs",
 					help="flag to show verbs",
+					default=False)
+parser.add_option("-n", "--nouns",
+					action="store_true",
+					dest="nouns",
+					help="flag to show nouns",
 					default=False)
 (options, args) = parser.parse_args()
 if options.filename is not None:
@@ -54,6 +59,11 @@ if options.filename is not None:
 				words = chapter.get_most_common_verbs(options.number, options.translate)
 			if options.reverse is True:
 				words = chapter.get_least_common_verbs(options.number, options.translate)
+		elif options.nouns is True:
+			if options.reverse is False:
+				words = chapter.get_most_common_nouns(options.number, options.translate)
+			if options.reverse is True:
+				words = chapter.get_least_common_nouns(options.number, options.translate)
 		elif options.reverse is True:
 			words = chapter.get_least_common(options.number, options.translate)
 		else:

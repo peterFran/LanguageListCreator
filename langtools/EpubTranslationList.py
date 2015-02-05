@@ -30,6 +30,8 @@ class TextTranslationList(object):
 		self.tagged_words = None
 		self.verbs = None
 		self.least_common_verbs = None
+		self.nouns = None
+		self.least_common_nouns = None
 		# Tokenize the text
 		
 		tokenizer = RegexpTokenizer(r'\w+')
@@ -117,6 +119,32 @@ class TextTranslationList(object):
 			self.least_common_verbs = copy(self.verbs)
 			self.least_common_verbs.reverse()
 		return self._get_n_words(number_words,self.least_common_verbs,translate)
+
+	def get_most_common_nouns(self,number_words, translate=False):
+		# Tag words
+		print("Filtering out nouns....")
+		if self.tagged_words is None:
+			self.tagged_words = self.class_tagger.tag(self.tokenized_words)
+		if self.nouns is None:
+			self.nouns = Counter([x[0] for x in self.tagged_words if x[1][0] == 'n']).most_common()
+
+		return self._get_n_words(number_words,self.nouns,translate)
+
+	def get_least_common_nouns(self,number_words, translate=False):
+		# Tag words
+		print("Filtering out nouns....")
+		if self.tagged_words is None:
+			self.tagged_words = self.class_tagger.tag(self.tokenized_words)
+		if self.nouns is None:
+			self.nouns = Counter([x[0] for x in self.tagged_words if x[1][0] == 'n']).most_common()
+		
+		if self.least_common_nouns is None:
+			self.least_common_nouns = copy(self.nouns)
+			self.least_common_nouns.reverse()
+		return self._get_n_words(number_words,self.least_common_nouns,translate)
+
+	#def get_words_of_type(self, number_words, types=[]):
+
 		
 class ChapterTranslationList(TextTranslationList):
 	"""docstring for ChapterTranslationList"""
