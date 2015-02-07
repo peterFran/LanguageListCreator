@@ -24,7 +24,7 @@ parser.add_option("-r", "--reverse",
 					default=False)
 parser.add_option("-q", "--quantity",
 					action="store",
-					dest="number",
+					dest="quantity",
 					type="int",
 					help="number of words you'd like to see.",
 					default=5)
@@ -54,20 +54,13 @@ if options.filename is not None:
 	else:
 		chapter = book.get_chapter(options.chapter)
 		words = []
+		types = []
+
 		if options.verbs is True:
-			if options.reverse is False:
-				words = chapter.get_most_common_verbs(options.number, options.translate)
-			if options.reverse is True:
-				words = chapter.get_least_common_verbs(options.number, options.translate)
+			types.append("v")
 		elif options.nouns is True:
-			if options.reverse is False:
-				words = chapter.get_most_common_nouns(options.number, options.translate)
-			if options.reverse is True:
-				words = chapter.get_least_common_nouns(options.number, options.translate)
-		elif options.reverse is True:
-			words = chapter.get_least_common(options.number, options.translate)
-		else:
-			words = chapter.get_most_common(options.number, options.translate)
+			types.append("n")
+		words = chapter.get(options.quantity, types, options.translate, options.reverse)
 		if options.translate:
 			print_list_to_terminal(words)
 		else:
