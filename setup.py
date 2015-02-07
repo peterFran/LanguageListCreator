@@ -9,5 +9,5 @@ setup(name='langtools',
       author_email='peterf.meckiffe@gmail.com',
       url='https://www.github.com/peterFran/LanguageListCreator',
       packages=['langtools'],
-      package_data={'langtools': ['dictionary/dic/*']}
+      package_data={'langtools': ['dictionary/dic/*', 'classify/tagger/*']}
      )
