@@ -1,5 +1,6 @@
-from langtools.translator.EpubTranslation import EpubTranslation
+from langtools.translator.EPUBTranslation import EPUBTranslation
+
 
 def test_epub_stemming():
-	book = EpubTranslation("resources/DonQuijote.epub")
-	print(book.get_chapter(25).get_least_common(5))
+    book = EPUBTranslation("resources/DonQuijote.epub")
+    print(book.get_chapter(25).get_least_common(5))

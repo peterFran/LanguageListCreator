@@ -1,7 +1,9 @@
-from nltk.tokenize import RegexpTokenizer
 from collections import Counter
-from copy import copy
-import pickle
+
+from itertools import groupby
+
+from nltk.tokenize import RegexpTokenizer
+
 from langtools.translator.SpanishTranslator import SpanishTranslator
 from langtools.classify.FilterWords import FilterWords
 
@@ -10,6 +12,10 @@ class TextTranslation(object):
     """docstring for ClassName"""
 
     def __init__(self, chapter):
+        """
+
+        :param chapter:
+        """
         self.text = chapter
 
         # Tokenize the text
@@ -22,7 +28,13 @@ class TextTranslation(object):
         # Get translator object
         self.translator = SpanishTranslator()
 
-    def _get_n_words(self, number_words, ordered_tokens):
+    def translate_n_words(self, number_words, ordered_tokens):
+        """
+
+        :param number_words:
+        :param ordered_tokens:
+        :return:
+        """
         index = 0
         word_list = []
         # Loop over the words in sorted dict
@@ -40,12 +52,23 @@ class TextTranslation(object):
                 break
         return word_list
 
-    def get(self, number_words, types=[], translate=False, reverse=False):
-        tagged_words = Counter(self.tagger.get(types)).most_common()
+    def get(self, number_words, types=[], ordered=False, translate=False, reverse=False):
+        """
+
+        :param number_words:
+        :param types:
+        :param translate:
+        :param reverse:
+        :return:
+        """
+        words = self.tagger.get(types)
+        tagged_words = [(k, len(list(g))) for k, g in groupby(words)]
+        if ordered is True:
+            tagged_words = Counter(words).most_common()
         if reverse is True:
             tagged_words.reverse()
 
         if translate is True:
-            return self._get_n_words(number_words, tagged_words)
+            return self.translate_n_words(number_words, tagged_words)
         else:
             return [{'Word': word[0], 'Count': word[1]} for word in tagged_words][:number_words]
