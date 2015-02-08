@@ -6,62 +6,62 @@ from optparse import OptionParser
 
 parser = OptionParser()
 parser.add_option("-f", "--file", 
-					dest="filename",
-                  	help="location of EPUB",
-                  	action="store",
-                  	type="string",
-                  	default=None)
+                    dest="filename",
+                    help="location of EPUB",
+                    action="store",
+                    type="string",
+                    default=None)
 parser.add_option("-c", "--chapter",
-                  	action="store", 
-                  	dest="chapter", 
-                  	help="Which chapter would you like to load",
-                  	type="int",
-                  	default=None)
+                    action="store",
+                    dest="chapter",
+                    help="Which chapter would you like to load",
+                    type="int",
+                    default=None)
 parser.add_option("-r", "--reverse",
-					dest="reverse",
-					help="see least common words",
-					action="store_true",
-					default=False)
+                    dest="reverse",
+                    help="see least common words",
+                    action="store_true",
+                    default=False)
 parser.add_option("-q", "--quantity",
-					action="store",
-					dest="quantity",
-					type="int",
-					help="number of words you'd like to see.",
-					default=5)
+                    action="store",
+                    dest="quantity",
+                    type="int",
+                    help="number of words you'd like to see.",
+                    default=5)
 parser.add_option("-t", "--translate",
-					action="store_true",
-					dest="translate",
-					help="flag to attempt translations",
-					default=False)
+                    action="store_true",
+                    dest="translate",
+                    help="flag to attempt translations",
+                    default=False)
 parser.add_option("-v", "--verbs",
-					action="store_true",
-					dest="verbs",
-					help="flag to show verbs",
-					default=False)
+                    action="store_true",
+                    dest="verbs",
+                    help="flag to show verbs",
+                    default=False)
 parser.add_option("-n", "--nouns",
-					action="store_true",
-					dest="nouns",
-					help="flag to show nouns",
-					default=False)
+                    action="store_true",
+                    dest="nouns",
+                    help="flag to show nouns",
+                    default=False)
 (options, args) = parser.parse_args()
 if options.filename is not None:
-	book = EpubTranslation(options.filename)
-	if options.chapter is None:		
-		print("Imported {0}, please select which chapter to read".format(book.title))
-		
-		for index, item in enumerate(book.chapters):
-			print("{0}. {1}".format(index,item.get_name()))
-	else:
-		chapter = book.get_chapter(options.chapter)
-		words = []
-		types = []
+    book = EpubTranslation(options.filename)
+    if options.chapter is None:
+        print("Imported {0}, please select which chapter to read".format(book.title))
 
-		if options.verbs is True:
-			types.append("v")
-		elif options.nouns is True:
-			types.append("n")
-		words = chapter.get(options.quantity, types, options.translate, options.reverse)
-		if options.translate:
-			print_list_to_terminal(words)
-		else:
-			print_untranslated_to_table(words)
+        for index, item in enumerate(book.chapters):
+            print("{0}. {1}".format(index,item.get_name()))
+    else:
+        chapter = book.get_chapter(options.chapter)
+        words = []
+        types = []
+
+        if options.verbs is True:
+            types.append("v")
+        elif options.nouns is True:
+            types.append("n")
+        words = chapter.get(options.quantity, types, options.translate, options.reverse)
+        if options.translate:
+            print_list_to_terminal(words)
+        else:
+            print_untranslated_to_table(words)
