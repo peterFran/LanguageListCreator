@@ -1,4 +1,4 @@
-from collections import Counter
+from collections import Counter, OrderedDict
 
 from itertools import groupby
 
@@ -62,13 +62,19 @@ class TextTranslation(object):
         :return:
         """
         words = self.tagger.get(types)
-        tagged_words = [(k, len(list(g))) for k, g in groupby(words)]
         if ordered is True:
             tagged_words = Counter(words).most_common()
+        else:
+            tagged_words = OrderedDict.fromkeys(words, 1).items()
+
         if reverse is True:
             tagged_words.reverse()
 
         if translate is True:
             return self.translate_n_words(number_words, tagged_words)
         else:
-            return [{'Word': word[0], 'Count': word[1]} for word in tagged_words][:number_words]
+            try:
+                return [{'Word': word[0], 'Count': word[1]} for word in tagged_words][:number_words]
+            except IndexError as i:
+                #
+                return [{'Word': word[0], 'Count': word[1]} for word in tagged_words]

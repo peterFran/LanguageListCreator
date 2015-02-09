@@ -13,6 +13,8 @@ def print_list_to_terminal(words):
     ])
     table.max_width["First Compound"] = 30
     table.max_width["First Compound Translation"] = 30
+    table.max_width["First Translation"] = 30
+    table.max_width["Second Translation"] = 30
 
     i = 0
     for translations in words:
