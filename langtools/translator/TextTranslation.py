@@ -1,6 +1,6 @@
 from collections import Counter, OrderedDict
 
-from itertools import groupby
+from itertools import islice
 
 from nltk.tokenize import RegexpTokenizer
 
@@ -52,7 +52,7 @@ class TextTranslation(object):
                 break
         return word_list
 
-    def get(self, number_words, types=[], ordered=False, translate=False, reverse=False):
+    def get(self, start, number_words, types=[], ordered=False, translate=False, reverse=False):
         """
 
         :param number_words:
@@ -71,10 +71,12 @@ class TextTranslation(object):
             tagged_words.reverse()
 
         if translate is True:
-            return self.translate_n_words(number_words, tagged_words)
+            tagged_words_list = list(islice(tagged_words,start,number_words+start))
+            return self.translate_n_words(number_words, tagged_words_list)
         else:
             try:
-                return [{'Word': word[0], 'Count': word[1]} for word in tagged_words][:number_words]
+                return [{'Word': word[0], 'Count': word[1]} for word in tagged_words][start:number_words+start]
             except IndexError as i:
                 #
-                return [{'Word': word[0], 'Count': word[1]} for word in tagged_words]
+                return [{'Word': word[0], 'Count': word[1]} for word in tagged_words][start:]
+

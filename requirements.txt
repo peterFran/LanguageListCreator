@@ -1,3 +1,4 @@
+flask
 EbookLib==0.15
 beautifulsoup4==4.3.2
 -e git+git@github.com-peterFran:peterFran/LanguageListCreator@4219f41058f1f3ddf4df5c89657acb79ec656ba0#egg=langtools-origin/master
