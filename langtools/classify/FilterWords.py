@@ -1,24 +1,33 @@
-import pkgutil
-import pickle
-
+from langtools.classify.tagger import TaggerFactory
 
 class FilterWords(object):
     """docstring for FilterWords"""
 
     def __init__(self, words):
-        self.tagger = pickle.loads(pkgutil.get_data('langtools', 'classify/tagger/class.pickle'))
+        self.tagger = TaggerFactory.factory("cess")
         self.words = words
-        self.tagged_words = None
+        self.tagged_words_list = None
 
-    def get(self, types=[]):
+    def filtered_words(self, types=[]):
 
+        """
+        Returns a list of words filtered based on the
+        :param types:
+        :return:
+        """
         filtered_words = []
         if len(types) == 0:
             return self.words
-        if self.tagged_words is None:
-            self.tagged_words = self.tagger.tag(self.words)
-        if "v" in types:
-            filtered_words += [x[0] for x in self.tagged_words if x[1][0] == 'v' and not x[0][0].isupper()]
-        if "n" in types:
-            filtered_words += [x[0] for x in self.tagged_words if x[1][0] == 'n' and not x[0][0].isupper()]
+        else:
+            filtered_words += [x[0] for x in self.tagged_words if x[1][0] in types and not x[0][0].isupper()]
         return filtered_words
+
+    @property
+    def tagged_words(self):
+        """
+        returns a list of tagged words
+        :return:
+        """
+        if self.tagged_words_list is None:
+            self.tagged_words_list = self.tagger.tag(self.words)
+        return self.tagged_words_list

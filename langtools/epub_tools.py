@@ -72,14 +72,16 @@ if options.filename is not None:
             types.append("v")
         elif options.nouns is True:
             types.append("n")
-        words = chapter.get(options.start, options.quantity, types, options.ordered, options.translate, options.reverse)
+        words = chapter.get(options.quantity, start=options.start, types=types, ordered=options.ordered,
+                            translate=options.translate, reverse=options.reverse)
         if options.translate:
             print_list_to_terminal(words)
         else:
             print_untranslated_to_table(words)
 
-# if __name__ == "__main__":
-#     from langtools.translator.EPUBTranslation import EPUBTranslation
-#     book = EPUBTranslation("../resources/821ejdacrz.epub")
-#     chapter = book.get_chapter(0)
-#     words = chapter.get(3, 3, [], False, True, False)
+if __name__ == "__main__":
+    from langtools.translator.EPUBTranslation import EPUBTranslation
+
+    book = EPUBTranslation("../resources/ElJuegoDelAngel.epub")
+    chapter = book.get_chapter(0)
+    words = chapter.get(3, 3, ['n'], False, True, False)

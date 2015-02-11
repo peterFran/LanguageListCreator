@@ -52,7 +52,7 @@ class TextTranslation(object):
                 break
         return word_list
 
-    def get(self, start, number_words, types=[], ordered=False, translate=False, reverse=False):
+    def get(self, number_words=-1, start=0, types=[], ordered=False, translate=False, reverse=False):
         """
 
         :param number_words:
@@ -61,7 +61,11 @@ class TextTranslation(object):
         :param reverse:
         :return:
         """
-        words = self.tagger.get(types)
+
+        words = self.tagger.filtered_words(types)
+        if number_words == -1:
+            number_words = len(words)
+
         if ordered is True:
             tagged_words = Counter(words).most_common()
         else:
@@ -71,11 +75,11 @@ class TextTranslation(object):
             tagged_words.reverse()
 
         if translate is True:
-            tagged_words_list = list(islice(tagged_words,start,number_words+start))
+            tagged_words_list = list(islice(tagged_words, start, number_words + start))
             return self.translate_n_words(number_words, tagged_words_list)
         else:
             try:
-                return [{'Word': word[0], 'Count': word[1]} for word in tagged_words][start:number_words+start]
+                return [{'Word': word[0], 'Count': word[1]} for word in tagged_words][start:number_words + start]
             except IndexError as i:
                 #
                 return [{'Word': word[0], 'Count': word[1]} for word in tagged_words][start:]
